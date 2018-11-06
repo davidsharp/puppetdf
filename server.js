@@ -28,6 +28,7 @@ app.get('/pdf', function(request, response) {
   await page.goto(url?urlWithHttps:'https://google.com');
   const pdf = await page.pdf({format:'A4'});
   await browser.close();
+  response.type('application/pdf');
   response.send(pdf);
 })();
 });
