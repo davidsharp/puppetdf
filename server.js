@@ -22,7 +22,7 @@ app.get('/pdf', function(request, response) {
   const browser = await pup.launch({
       args: ['--no-sandbox']
     });
-  const url = request.query.page;
+  const url = request.query.page?decodeURIComponent(request.query.page):null;
   const urlWithHttps = /(^https?:\/\/)/g.test(url)?url:'https://'+url
   const page = await browser.newPage();
   await page.goto(url?urlWithHttps:'https://google.com');
