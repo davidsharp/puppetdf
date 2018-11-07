@@ -18,6 +18,7 @@ app.get('/', function(request, response) {
 });
 
 app.get('/pdf', function(request, response) {try{
+  if(!request.query.html)
 (async () => {
   const browser = await pup.launch({
       args: ['--no-sandbox']
@@ -27,6 +28,21 @@ app.get('/pdf', function(request, response) {try{
   const page = await browser.newPage();
   try{
    await page.goto(url?urlWithHttps:'https://google.com');
+  }catch(e){response.send('Whoops! Something went wrong, please try again! 🤦‍♂️ '+e)}
+  const pdf = await page.pdf({format:'A4'});
+  await browser.close();
+  response.type('application/pdf');
+  response.send(pdf);
+})();
+  else
+(async () => {
+  const browser = await pup.launch({
+      args: ['--no-sandbox']
+    });
+  const html = decodeURIComponent(request.query.html);
+  const page = await browser.newPage();
+  try{
+   await page.setContent(html);
   }catch(e){response.send('Whoops! Something went wrong, please try again! 🤦‍♂️ '+e)}
   const pdf = await page.pdf({format:'A4'});
   await browser.close();

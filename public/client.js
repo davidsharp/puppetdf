@@ -9,3 +9,14 @@ dreamsForm.onsubmit = function(event) {
   console.log(location.hostname+'/pdf?page='+dreamInput.value,encodeURIComponent(dreamInput.value))
   if(dreamInput.value.length>0)location.assign('/pdf?page='+encodeURIComponent(dreamInput.value))
 };
+
+// I'm aware that this is prone to XSS
+function handleFiles(files){
+  const reader    = new FileReader(),
+        file = files[0];
+  console.log(files)
+  reader.onload = function(event) {
+    location.assign('/pdf?html='+encodeURIComponent(event.target.result)) //post this
+  };
+  reader.readAsText(file);
+}
