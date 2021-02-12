@@ -40,9 +40,15 @@
         <input type="file" id="input" onchange="handleFiles(this.files)" style="margin-top:5px;background-color:white;">
       </form><!--this only takes small files because it passes it over as a URL argument-->
     </main>
-
+    
+    
     <footer>
-      Made with <a href="https://glitch.com">Glitch</a>!
+      <% if (chromium) { %>
+      <p style="font-size:12px">
+        (browser version: <%= chromium %>)
+      </p>
+      <% } %>
+      <!--Made with <a href="https://glitch.com">Glitch</a>! Powered by Puppeteer!-->
     </footer>
 
     <!-- include the Glitch button to show what the webpage is about and

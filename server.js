@@ -6,15 +6,25 @@ const express = require('express');
 const app = express();
 const pup = require('puppeteer');
 
-// we've started you off with Express, 
-// but feel free to use whatever libs or frameworks you'd like through `package.json`.
+let VERSION=null
+
+pup.launch({
+      args: ['--no-sandbox']
+    }).then(browser=>{
+  browser.version().then(version=>{
+    VERSION=version
+    browser.close()
+  })
+}) 
 
 // http://expressjs.com/en/starter/static-files.html
 app.use(express.static('public'));
+app.set('view engine', 'ejs')
 
 // http://expressjs.com/en/starter/basic-routing.html
 app.get('/', function(request, response) {
-  response.sendFile(__dirname + '/views/index.html');
+  //response.sendFile(__dirname + '/views/index.ejs',{chromium:VERSION});
+  response.render('index',{chromium:VERSION})
 });
 
 app.get('/pdf', function(request, response) {try{
@@ -29,7 +39,8 @@ app.get('/pdf', function(request, response) {try{
   try{
    await page.goto(url?urlWithHttps:'https://google.com');
   }catch(e){response.send('Whoops! Something went wrong, please try again! 🤦‍♂️ '+e)}
-  const pdf = await page.pdf({format:'A4'});
+  const options = {format:request.query.size||'A4', printBackground:typeof request.query.bg!=undefined?request.query.bg=='true':true}
+  const pdf = await page.pdf(options);
   await browser.close();
   response.type('application/pdf');
   response.send(pdf);
@@ -44,7 +55,8 @@ app.get('/pdf', function(request, response) {try{
   try{
    await page.setContent(html);
   }catch(e){response.send('Whoops! Something went wrong, please try again! 🤦‍♂️ '+e)}
-  const pdf = await page.pdf({format:'A4'});
+  const options = {format:request.query.size||'A4', printBackground:typeof request.query.bg!=undefined?request.query.bg=='true':true}
+  const pdf = await page.pdf(options);
   await browser.close();
   response.type('application/pdf');
   response.send(pdf);
@@ -64,7 +76,8 @@ app.get(/.*/, function(request, response) {try{
   try{
    await page.goto(url?urlWithHttps:'https://google.com');
   }catch(e){response.send('Whoops! Something went wrong, please try again! 🤦‍♂️ '+e)}
-  const pdf = await page.pdf({format:'A4'});
+  const options = {format:request.query.size||'A4', printBackground:typeof request.query.bg!=undefined?request.query.bg=='true':true}
+  const pdf = await page.pdf(options);
   await browser.close();
   response.type('application/pdf');
   response.send(pdf);
@@ -79,7 +92,8 @@ app.get(/.*/, function(request, response) {try{
   try{
    await page.setContent(html);
   }catch(e){response.send('Whoops! Something went wrong, please try again! 🤦‍♂️ '+e)}
-  const pdf = await page.pdf({format:'A4'});
+  const options = {format:request.query.size||'A4', printBackground:typeof request.query.bg!=undefined?request.query.bg=='true':true}
+  const pdf = await page.pdf(options);
   await browser.close();
   response.type('application/pdf');
   response.send(pdf);
