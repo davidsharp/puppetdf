@@ -4,7 +4,7 @@ const pup84 = require('puppeteer-chrome-84');
 function pdfRequest(request, response) {
   try {
     // hidden Chrome 84 (w/ export tagged pdf flag)
-    const pup = request.query.eightyfour ? pup84 : pupLatest
+    const pup = request.query.eightyfour && request.query.eightyfour == 'true' ? pup84 : pupLatest
     if (!request.query.html)
       (async () => {
         const browser = await pup.launch({

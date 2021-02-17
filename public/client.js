@@ -3,12 +3,14 @@ const dreamsList = document.getElementById('dreams');
 const dreamsForm = document.forms[0];
 const dreamInput = dreamsForm.elements['dream'];
 const dreamBackground = dreamsForm.elements['bg'];
+const dreamEightyfour = dreamsForm.elements['ef'];
 
 // listen for the form to be submitted and add a new dream when it is
 dreamsForm.onsubmit = function(event) {
   event.preventDefault()
-  console.log(location.hostname+'/pdf?page='+dreamInput.value,encodeURIComponent(dreamInput.value))
-  if(dreamInput.value.length>0)location.assign('/pdf?page='+encodeURIComponent(dreamInput.value)+'&bg='+dreamBackground.checked)
+  if(dreamInput.value.length>0){
+    location.assign('/pdf?page='+encodeURIComponent(dreamInput.value)+'&bg='+dreamBackground.checked+'&eightyfour='+dreamEightyfour)
+  }
 };
 
 // I'm aware that this is prone to XSS
