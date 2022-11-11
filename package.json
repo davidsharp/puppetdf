@@ -13,7 +13,7 @@
     "express": "^4.17.1",
     "puppeteer": "^7.1.0",
     "puppeteer-chrome-84": "npm:puppeteer@5.1.0",
-    "ejs": "^3.1.6"
+    "ejs": "^3.1.7"
   },
   "engines": {
     "node": "12.x"
